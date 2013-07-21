@@ -28,23 +28,21 @@ describe "UserPages" do
 
     describe "with invalid information" do
       it "should not create a user" do
-        old_count = User.count
-        click_button submit
-        new_count = User.count
-        new_count.should == old_count
+        expect { click_button submit }.not_to change(User, :count)
       end
     end
 
     describe "with valid information" do
-      it "should create a user" do
-        old_count = User.count
+
+      before do
         fill_in "Name", with: "Example User"
         fill_in "Email", with: "user@example.com"
         fill_in "Password", with: "foobar"
         fill_in "Confirmation", with: "foobar"
-        click_button submit
-        new_count = User.count
-        new_count.should == old_count + 1
+      end
+
+      it "should create a user" do
+        expect { click_button submit }.to change(User, :count).by(1)
       end
     end
 
