@@ -24,10 +24,12 @@ describe "UserPages" do
 
     before { visit signup_path }
 
+    let (:submit) { "Create my account" }
+
     describe "with invalid information" do
       it "should not create a user" do
         old_count = User.count
-        click_button "Create my account"
+        click_button submit
         new_count = User.count
         new_count.should == old_count
       end
@@ -40,7 +42,7 @@ describe "UserPages" do
         fill_in "Email", with: "user@example.com"
         fill_in "Password", with: "foobar"
         fill_in "Confirmation", with: "foobar"
-        click_button "Create my account"
+        click_button submit
         new_count = User.count
         new_count.should == old_count + 1
       end
