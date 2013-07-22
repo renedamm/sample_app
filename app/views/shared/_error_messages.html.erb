@@ -1,10 +1,11 @@
 <% if @user.errors.any? %>
     <div id="error_explanation">
+        <% filtered_messages = @user.errors.full_messages.select { |message| !message.start_with?("Password digest") } %>
         <div class="alert alert-error">
-            The form contains <%= pluralize(@user.errors.count, "error") %>.
+            The form contains <%= pluralize(filtered_messages.count, "error") %>.
         </div>
         <ul>
-            <% @user.errors.full_messages.each do |message| %>
+            <% filtered_messages.each do |message| %>
                 <li>* <%= message %></li>
             <% end %>
         </ul>
