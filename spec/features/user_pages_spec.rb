@@ -31,9 +31,12 @@ describe "UserPages" do
         expect { click_button submit }.not_to change(User, :count)
       end
 
-      describe "should print error messages" do
+      describe "after submission" do
         before { click_button submit }
-        it { should have_selector('div', text: /The form contains [0-9]+ errors./) }
+
+        it { should have_title('Sign up') }
+        it { should have_content('error') }
+        it { should_not have_content('Password digest') }
       end
     end
 
@@ -50,16 +53,13 @@ describe "UserPages" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
 
-      describe "should display a flash message" do
-        before { click_button submit }
-        it { should have_selector('div', text: 'Welcome') }
-      end
-
       describe "after saving a user" do
         before { click_button submit }
+
         let (:user) { User.find_by_email("user@example.com") }
 
         it { should have_title(user.name) }
+        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
     end
 
