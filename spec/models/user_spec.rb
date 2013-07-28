@@ -123,9 +123,7 @@ describe User do
 
   describe "remember token" do
     before { @user.save }
-    it "should have a non-blank remember token" do
-      subject.remember_token.should_not be_blank
-    end
+    its (:remember_token) { should_not be_blank }
   end
 
 end
